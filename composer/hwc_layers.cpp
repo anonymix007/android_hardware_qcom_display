@@ -711,8 +711,29 @@ HWC2::Error HWCLayer::SetLayerVisibleRegion(hwc_region_t visible) {
   return HWC2::Error::None;
 }
 
+#ifdef ZTE_UDFPS
+#define ZTE_UDFPS_FOD_MASK 0x20000000
+#define ZTE_UDFPS_HBM_MASK 0x40000000
+#define ZTE_UDFPS_AOD_MASK 0x80000000
+#endif
+
 HWC2::Error HWCLayer::SetLayerZOrder(uint32_t z) {
   if (z_ != z) {
+#ifdef ZTE_UDFPS
+    if (z & ZTE_UDFPS_FOD_MASK) {
+        z &= ~ZTE_UDFPS_FOD_MASK;
+        fod_ = true;
+    }
+    if (z & ZTE_UDFPS_HBM_MASK) {
+        z &= ~ZTE_UDFPS_HBM_MASK;
+        hbm_ = true;
+    }
+    if (z & ZTE_UDFPS_AOD_MASK) {
+        z &= ~ZTE_UDFPS_AOD_MASK;
+        aod_ = true;
+    }
+#endif
+
     geometry_changes_ |= kZOrder;
     z_ = z;
   }

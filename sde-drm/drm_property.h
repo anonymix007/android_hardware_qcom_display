@@ -84,6 +84,11 @@ enum struct DRMProperty {
   SRC_Y,
   SRC_W,
   SRC_H,
+#ifdef ZTE_UDFPS
+  ZTE_AOD_LAYER,
+  ZTE_FOD_LAYER,
+  ZTE_HBM_LAYER,
+#endif
   ZPOS,
   ALPHA,
   EXCL_RECT,

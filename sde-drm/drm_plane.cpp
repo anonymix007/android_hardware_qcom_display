@@ -1150,6 +1150,29 @@ void DRMPlane::Perform(DRMOps code, drmModeAtomicReq *req, va_list args) {
       DRM_LOGD("Plane %d: Setting z %d", obj_id, zpos);
     } break;
 
+#ifdef ZTE_UDFPS
+    case DRMOps::PLANE_SET_AOD: {
+      uint32_t aod = va_arg(args, uint32_t);
+      prop_id = prop_mgr_.GetPropertyId(DRMProperty::ZTE_AOD_LAYER);
+      AddProperty(req, obj_id, prop_id, aod, true /* cache */, tmp_prop_val_map_);
+      DRM_LOGD("Plane %d: Setting AOD %d", obj_id, aod);
+    } break;
+
+    case DRMOps::PLANE_SET_FOD: {
+      uint32_t fod = va_arg(args, uint32_t);
+      prop_id = prop_mgr_.GetPropertyId(DRMProperty::ZTE_FOD_LAYER);
+      AddProperty(req, obj_id, prop_id, fod, true /* cache */, tmp_prop_val_map_);
+      DRM_LOGD("Plane %d: Setting FOD %d", obj_id, fod);
+    } break;
+
+    case DRMOps::PLANE_SET_HBM: {
+      uint32_t dim = va_arg(args, uint32_t);
+      prop_id = prop_mgr_.GetPropertyId(DRMProperty::ZTE_HBM_LAYER);
+      AddProperty(req, obj_id, prop_id, dim, true /* cache */, tmp_prop_val_map_);
+      DRM_LOGD("Plane %d: Setting HBM Dim %d", obj_id, dim);
+    } break;
+#endif
+
     case DRMOps::PLANE_SET_ROTATION: {
       uint32_t rot_bit_mask = va_arg(args, uint32_t);
       uint32_t drm_rot_bit_mask = 0;

@@ -244,6 +244,12 @@ struct LayerFlags {
       uint32_t skip_iwe : 1;
                               //!< This flag shall be set to indicate that this layer
                               //!< is handled by IWE for two phase composition.
+
+#ifdef ZTE_UDFPS
+      uint32_t aod : 1;       //!< This flag shall be set internally to mark the AOD layer
+      uint32_t fod : 1;       //!< This flag shall be set internally to mark the FOD layer
+      uint32_t hbm : 1;       //!< This flag shall be set internally to mark the HBM Dim layer
+#endif
     };
 
     uint32_t flags = 0;       //!< For initialization purpose only.

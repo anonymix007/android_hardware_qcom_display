@@ -102,6 +102,11 @@ int DRMAtomicReq::Perform(DRMOps opcode, uint32_t obj_id, ...) {
     case DRMOps::PLANE_SET_SRC_RECT:
     case DRMOps::PLANE_SET_DST_RECT:
     case DRMOps::PLANE_SET_ZORDER:
+#ifdef ZTE_UDFPS
+    case DRMOps::PLANE_SET_AOD:
+    case DRMOps::PLANE_SET_FOD:
+    case DRMOps::PLANE_SET_HBM:
+#endif
     case DRMOps::PLANE_SET_ROTATION:
     case DRMOps::PLANE_SET_ALPHA:
     case DRMOps::PLANE_SET_BLEND_TYPE:

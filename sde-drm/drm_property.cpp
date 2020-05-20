@@ -81,6 +81,11 @@ DRMProperty DRMPropertyManager::GetPropertyEnum(const std::string &name) const {
   if (name == "SRC_W") { return DRMProperty::SRC_W; }
   if (name == "SRC_H") { return DRMProperty::SRC_H; }
   if (name == "zpos") { return DRMProperty::ZPOS; }
+#ifdef ZTE_UDFPS
+  if (name == "zte_fod_layer") { return DRMProperty::ZTE_FOD_LAYER; }
+  if (name == "zte_hbm_layer") { return DRMProperty::ZTE_HBM_LAYER; }
+  if (name == "zte_aod_layer") { return DRMProperty::ZTE_AOD_LAYER; }
+#endif
   if (name == "alpha") { return DRMProperty::ALPHA; }
   if (name == "excl_rect_v1") { return DRMProperty::EXCL_RECT; }
   if (name == "h_decimate") { return DRMProperty::H_DECIMATE; }

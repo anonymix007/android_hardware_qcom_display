@@ -1448,7 +1448,13 @@ void HWDeviceDRM::SetupAtomic(Fence::ScopedRef &scoped_ref, HWLayersInfo *hw_lay
         if (update_config) {
           drm_atomic_intf_->Perform(DRMOps::PLANE_SET_ALPHA, pipe_id, layer.plane_alpha);
 
+#ifdef ZTE_UDFPS
+          drm_atomic_intf_->Perform(DRMOps::PLANE_SET_AOD, pipe_id, layer.flags.aod);
+          drm_atomic_intf_->Perform(DRMOps::PLANE_SET_FOD, pipe_id, layer.flags.fod);
+          drm_atomic_intf_->Perform(DRMOps::PLANE_SET_HBM, pipe_id, layer.flags.hbm);
+
           drm_atomic_intf_->Perform(DRMOps::PLANE_SET_ZORDER, pipe_id, pipe_info->z_order);
+#endif
 
           sde_drm::DRMFp16CscType fp16_csc_type = sde_drm::DRMFp16CscType::kFP16CscTypeMax;
           int fp16_igc_en = 0;

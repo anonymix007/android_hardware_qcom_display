@@ -700,6 +700,20 @@ void HWCDisplay::BuildLayerStack() {
       layer->flags.solid_fill = true;
     }
 
+#ifdef ZTE_UDFPS
+    if (hwc_layer->IsAod()) {
+      layer->flags.hbm = true;
+    }
+
+    if (hwc_layer->IsFod()) {
+      layer->flags.fod = true;
+    }
+
+    if (hwc_layer->IsHbm()) {
+      layer->flags.hbm = true;
+    }
+#endif
+
     if (!hwc_layer->IsDataSpaceSupported()) {
       layer->flags.skip = true;
     }

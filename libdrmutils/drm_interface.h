@@ -80,6 +80,26 @@ enum struct DRMOps {
    *      uint32_t - zorder
    */
   PLANE_SET_ZORDER,
+#ifdef ZTE_UDFPS
+  /*
+   * Op: Sets plane AOD flag
+   * Arg: uint32_t - Plane ID
+   *      uint32_t - AOD flag
+   */
+  PLANE_SET_AOD,
+  /*
+   * Op: Sets plane FOD flag
+   * Arg: uint32_t - Plane ID
+   *      uint32_t - FOD flag
+   */
+  PLANE_SET_FOD,
+  /*
+   * Op: Sets plane HBM Dim flag
+   * Arg: uint32_t - Plane ID
+   *      uint32_t - HBM Dim flag
+   */
+  PLANE_SET_HBM,
+#endif
   /*
    * Op: Sets plane rotation flags
    * Arg: uint32_t - Plane ID

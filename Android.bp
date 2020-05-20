@@ -7,6 +7,7 @@ soong_config_module_type {
         "headless",
         "llvmsa",
         "gralloc4",
+        "zte_udfps",
         "default",
         "var3",
         "llvmcov",
@@ -115,6 +116,9 @@ qtidisplay_cc_defaults {
         },
         use_ycrcb_camera_encode: {
             cflags: ["-DTARGET_USE_YCRCB_CAMERA_ENCODE"],
+        },
+        zte_udfps: {
+            cflags: ["-DZTE_UDFPS"],
         },
     },
 }
