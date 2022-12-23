@@ -7,6 +7,8 @@ soong_config_module_type {
         "headless",
         "llvmsa",
         "gralloc4",
+        "gralloc_handle_has_reserved_size",
+        "udfps",
         "default",
         "var3",
         "llvmcov",
@@ -111,6 +113,12 @@ qtidisplay_cc_defaults {
         },
         panel_dimension_extra_precision: {
             cflags: ["-DTARGET_PANEL_DIMENSION_HAS_EXTRA_PRECISION"],
+        }
+        gralloc_handle_has_reserved_size: {
+            cflags: ["-DGRALLOC_HANDLE_HAS_RESERVED_SIZE"],
+        },
+        udfps: {
+            cflags: ["-DUDFPS_ZPOS"],
         },
     },
 }
