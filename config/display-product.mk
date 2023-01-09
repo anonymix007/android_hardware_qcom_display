@@ -154,14 +154,14 @@ endif
 SOONG_CONFIG_NAMESPACES += qtidisplay
 
 # Soong Keys
-SOONG_CONFIG_qtidisplay := drmpp headless llvmsa gralloc4 gralloc_handle_has_reserved_size displayconfig_enabled udfps default var1 var2 var3 llvmcov panel_dimension_extra_precision
+SOONG_CONFIG_qtidisplay := drmpp headless llvmsa gralloc4 gralloc_handle_has_no_reserved_size displayconfig_enabled udfps default var1 var2 var3 llvmcov panel_dimension_extra_precision
 
 # Soong Values
 SOONG_CONFIG_qtidisplay_drmpp := true
 SOONG_CONFIG_qtidisplay_headless := false
 SOONG_CONFIG_qtidisplay_llvmsa := false
 SOONG_CONFIG_qtidisplay_gralloc4 := true
-SOONG_CONFIG_qtidisplay_gralloc_handle_has_reserved_size := true
+SOONG_CONFIG_qtidisplay_gralloc_handle_has_no_reserved_size := false
 SOONG_CONFIG_qtidisplay_displayconfig_enabled := false
 SOONG_CONFIG_qtidisplay_default := true
 SOONG_CONFIG_qtidisplay_var1 := false
@@ -178,8 +178,8 @@ ifeq ($(TARGET_PANEL_DIMENSION_HAS_EXTRA_PRECISION), true)
     SOONG_CONFIG_qtidisplay_panel_dimension_extra_precision := true
 endif
 
-ifeq ($(TARGET_GRALLOC_HANDLE_HAS_RESERVED_SIZE),false)
-    SOONG_CONFIG_qtidisplay_gralloc_handle_has_reserved_size := false
+ifeq ($(TARGET_GRALLOC_HANDLE_HAS_NO_RESERVED_SIZE),true)
+    SOONG_CONFIG_qtidisplay_gralloc_handle_has_no_reserved_size := true
 endif
 
 ifeq ($(TARGET_USES_FOD_ZPOS), true)
