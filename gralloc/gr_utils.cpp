@@ -2188,16 +2188,26 @@ uint64_t GetMetaDataSize(uint64_t reserved_region_size, uint64_t custom_content_
                                                  custom_content_md_region_size));
 }
 
-void UnmapAndReset(private_handle_t *handle) {
+void UnmapAndReset(private_handle_t *handle
+#ifdef GRALLOC_HANDLE_HAS_NO_RESERVED_SIZE
+, uint64_t reserved_region_size) {
+#else
+) {
   uint64_t reserved_region_size = handle->reserved_size;
+#endif
   if (private_handle_t::validate(handle) == 0 && handle->base_metadata) {
-    munmap(reinterpret_cast<void *>(handle->base_metadata),
-           GetMetaDataSize(reserved_region_size, handle->custom_content_md_reserved_size));
+    munmap(reinterpret_cast<void *>(handle->base_metadata), GetMetaDataSize(reserved_region_size));
     handle->base_metadata = 0;
   }
 }
 
-int ValidateAndMap(private_handle_t *handle) {
+int ValidateAndMap(private_handle_t *handle
+#ifdef GRALLOC_HANDLE_HAS_NO_RESERVED_SIZE
+, uint64_t reserved_region_size) {
+#else
+) {
+  uint64_t reserved_region_size = handle->reserved_size;
+#endif
   if (private_handle_t::validate(handle)) {
     ALOGE("%s: Private handle is invalid - handle:%p", __func__, handle);
     return -1;
@@ -2208,8 +2218,7 @@ int ValidateAndMap(private_handle_t *handle) {
   }
 
   if (!handle->base_metadata) {
-    uint64_t reserved_region_size = handle->reserved_size;
-    uint64_t size = GetMetaDataSize(reserved_region_size, handle->custom_content_md_reserved_size);
+    uint64_t size = GetMetaDataSize(reserved_region_size);
     void *base = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, handle->fd_metadata, 0);
     if (base == reinterpret_cast<void *>(MAP_FAILED)) {
       ALOGE("%s: metadata mmap failed - handle:%p fd: %d err: %s", __func__, handle,
@@ -2217,6 +2226,23 @@ int ValidateAndMap(private_handle_t *handle) {
       return -1;
     }
     handle->base_metadata = (uintptr_t)base;
+#ifdef GRALLOC_HANDLE_HAS_NO_RESERVED_SIZE
+    // The allocator process gets the reserved region size from the BufferDescriptor.
+    // When importing to another process, the reserved size is unknown until mapping the metadata,
+    // hence the re-mapping below
+    auto metadata = reinterpret_cast<MetaData_t *>(handle->base_metadata);
+    if (reserved_region_size == 0 && metadata->reservedSize) {
+      size = GetMetaDataSize(metadata->reservedSize);
+      UnmapAndReset(handle);
+      void *new_base = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, handle->fd_metadata, 0);
+      if (new_base == reinterpret_cast<void *>(MAP_FAILED)) {
+        ALOGE("%s: metadata mmap failed - handle:%p fd: %d err: %s", __func__, handle,
+              handle->fd_metadata, strerror(errno));
+        return -1;
+      }
+      handle->base_metadata = (uintptr_t)new_base;
+    }
+#endif
   }
   return 0;
 }

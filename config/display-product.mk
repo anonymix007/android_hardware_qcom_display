@@ -154,7 +154,7 @@ endif
 SOONG_CONFIG_NAMESPACES += qtidisplay
 
 # Soong Keys
-SOONG_CONFIG_qtidisplay := drmpp headless llvmsa gralloc4 gralloc_handle_has_no_reserved_size displayconfig_enabled udfps default var1 var2 var3 llvmcov panel_dimension_extra_precision
+SOONG_CONFIG_qtidisplay := drmpp headless llvmsa gralloc4 gralloc_handle_has_no_reserved_size displayconfig_enabled default var1 var2 var3 llvmcov panel_dimension_extra_precision
 
 # Soong Values
 SOONG_CONFIG_qtidisplay_drmpp := true
@@ -180,10 +180,6 @@ endif
 
 ifeq ($(TARGET_GRALLOC_HANDLE_HAS_NO_RESERVED_SIZE),true)
     SOONG_CONFIG_qtidisplay_gralloc_handle_has_no_reserved_size := true
-endif
-
-ifeq ($(TARGET_USES_FOD_ZPOS), true)
-    SOONG_CONFIG_qtidisplay_udfps := true
 endif
 
 # Techpack values
